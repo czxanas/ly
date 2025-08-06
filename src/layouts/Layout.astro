@@ -3,6 +3,7 @@ import '../styles/main.css';
 import { SEO } from 'astro-seo';
 import { defaultSeo } from '../data/seo';
 import { getSeo } from '../utils/seo';
+import Heart from '../components/heart.astro';
 
 interface Props {
     title: string;
@@ -44,10 +45,12 @@ const FONTS: string[] = [
         <!--/ FONTS -->
     </head>
     <body>
-        <main
-            id="swup"
-            class="transition-fade relative w-full min-h-[100dvh] overflow-hidden"
-        >
+        <header class="pointer-events-none fixed w-full top-10 left-0 z-999">
+            <nav class="flex justify-center items-center px-8">
+                    <!-- <Heart /> -->
+            </nav>
+        </header>
+        <main id="swup" class="transition-fade relative w-full min-h-[100dvh] overflow-hidden">
             <slot />
         </main>
         <script src="../scripts/app.ts"></script>

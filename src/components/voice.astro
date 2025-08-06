@@ -1,0 +1,40 @@
+---
+const { src, text } = Astro.props;
+
+const bars = Array.from({ length: 20 });
+---
+
+<div
+    class="voice-box col-span-1 w-full aspect-[5/4] border-8 border-white shadow-lg hover:scale-101 rounded-[2rem] duration-250 cursor-pointer overflow-hidden"
+    data-src={src}
+>
+    <div class="relative w-full h-full c-grid_row px-5 py-4">
+        <div class="flex justify-center items-center gap-1">
+            {bars.map(() => <div class="w-0.75 h-1 bg-black/50 rounded-full" />)}
+        </div>
+        <div class="flex justify-between items-end">
+            <div class="text-black/80 text-lg">{text}</div>
+            <slot />
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const boxes = document.querySelectorAll('.voice-box') as any;
+
+        boxes.forEach((box: any) => {
+            let audio: any = null;
+
+            box.addEventListener('click', () => {
+                const src = box.getAttribute('data-src');
+
+                if (!audio) {
+                    audio = new Audio(src);
+                }
+
+                audio.play();
+            });
+        });
+    });
+</script>
