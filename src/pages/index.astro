@@ -29,6 +29,29 @@ const seo = {
     //     canonical: 'https://yourdomain.com/' // replace with your real domain
     // }
 };
+
+const voices = [
+    {
+        audio: '/audios/fcku.mp3',
+        image: '/images/anas.webp',
+        text: 'Wake up'
+    },
+    {
+        audio: '/audios/fcku.mp3',
+        image: '/images/anas-1.webp',
+        text: 'Love you'
+    },
+    {
+        audio: '/audios/fcku.mp3',
+        image: '/images/anas-2.webp',
+        text: 'Lynda'
+    },
+    {
+        audio: '/audios/fcku.mp3',
+        image: '/images/anas-3.webp',
+        text: 'Something'
+    },
+]
 ---
 
 <Layout title="Home" seo={seo}>
@@ -50,12 +73,7 @@ const seo = {
             To the sun & the back
         </h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 duration-150">
-            <Voice src="/audios/fcku.mp3" text="Wake up" />
-            <Voice src="/audios/fcku.mp3" text="Fuck you" />
-            <Voice src="/audios/fcku.mp3" text="Wake up" />
-            <Voice src="/audios/fcku.mp3" text="Wake up" />
-            <Voice src="/audios/fcku.mp3" text="Wake up" />
-            <Voice src="/audios/fcku.mp3" text="Wake up" />
+            {voices.map((voice) => <Voice src={voice.audio} image={voice.image} text={voice.text} />)}
         </div>
     </section>
 
