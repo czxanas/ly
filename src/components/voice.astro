@@ -1,26 +1,50 @@
 ---
-import Play from "./play.astro";
+import Play from './play.astro';
 
-const { src, text, image } = Astro.props;
+const { src, text, image, locked } = Astro.props;
 
 const bars = Array.from({ length: 5 });
 ---
+
 <div
     class="voice-box col-span-1 w-full aspect-square border-6 border-white shadow-lg rounded-[2rem] hover:scale-105 active:scale-95 origin-center duration-250 cursor-pointer overflow-hidden"
     data-src={src}
 >
     <div class="relative w-full h-full c-grid_row px-5 py-4">
         <div class="absolute w-full h-full top-0 left-0 overflow-hidden z-0">
-            <img class="w-full h-full object-cover grayscale-100x" src={image} alt="">
+            <img
+                class="w-full h-full object-cover pointer-events-none select-none"
+                src={image}
+                alt=""
+            />
         </div>
-        <div class="absolute w-full h-full top-0 left-0 bg-[linear-gradient(to_top,_black_0%,_transparent_40%)]"></div>
+        <div
+            class="absolute w-full h-full top-0 left-0 bg-[linear-gradient(to_top,_black_0%,_transparent_40%)]"
+        >
+        </div>
         <!-- <div class="absolute top-2 right-2 p-2 rounded-full bg-white">
             <Play />
         </div> -->
-        <div class="absolute h-10 top-2 left-2 p-2 rounded-full bg-black/5 border-white/5 border-2 backdrop-blur-xs shadow-mdx flex justify-center items-center gap-1 px-6">
-            {bars.map(() => <div class="w-0.75 h-1 bg-[#252525]x bg-white shadow rounded-full" />)}
+        <div
+            class="absolute h-10 top-2 left-2 p-2 rounded-full bg-black/5 border-white/5 border-2 backdrop-blur-xs flex justify-center items-center gap-1 px-6"
+        >
+            {
+                !locked &&
+                    bars.map(() => (
+                        <div class="w-0.75 h-1 bg-[#252525]x bg-white shadow rounded-full" />
+                    ))
+            }
         </div>
-        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center mb-2 md:mb-0">
+        {
+            locked && (
+                <div class="absolute top-0 left-0 w-full h-full bg-black/5 backdrop-blur-xs flex items-center justify-center">
+                    <svg class="w-24 h-24 fill-white -translate-y-1/10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><path fill-rule="evenodd" d="M5.25 10.055V8a6.75 6.75 0 0 1 13.5 0v2.055c1.115.083 1.84.293 2.371.824C22 11.757 22 13.172 22 16s0 4.243-.879 5.121C20.243 22 18.828 22 16 22H8c-2.828 0-4.243 0-5.121-.879C2 20.243 2 18.828 2 16s0-4.243.879-5.121c.53-.531 1.256-.741 2.371-.824M6.75 8a5.25 5.25 0 0 1 10.5 0v2.004Q16.676 9.999 16 10H8q-.677-.001-1.25.004z" clip-rule="evenodd"/></svg>
+                </div>
+            )
+        }
+        <div
+            class="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center mb-2 md:mb-0"
+        >
             <span class="text-lg text-white whitespace-nowrap">{text}</span>
             <span class="text-xs font-light text-white/70">01:04</span>
         </div>

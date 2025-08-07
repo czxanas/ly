@@ -34,19 +34,28 @@ const voices = [
     {
         audio: '/audios/fcku.mp3',
         image: '/images/anas.webp',
-        text: 'Wake up'
+        text: 'Wake up',
+        locked: false
     },
     {
         audio: '/audios/fcku.mp3',
         image: '/images/anas-1.webp',
-        text: 'Love you'
+        text: 'Love you',
+        locked: false
     },
     {
         audio: '/audios/fcku.mp3',
         image: '/images/anas-3.webp',
-        text: 'Lynda'
+        text: 'Lynda',
+        locked: false
     },
-]
+    {
+        audio: '/audios/fcku.mp3',
+        image: '/images/anas-4.webp',
+        text: 'Locked',
+        locked: true
+    }
+];
 ---
 
 <Layout title="Home" seo={seo}>
@@ -65,10 +74,19 @@ const voices = [
         </div>
 
         <h2 class="w-full text-center mx-auto px-5 text-2xl xs:text-4xl font-light mt-0 mb-10">
-            To the sun & the back
+            To the sun & back
         </h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 duration-150">
-            {voices.map((voice) => <Voice src={voice.audio} image={voice.image} text={voice.text} />)}
+            {
+                voices.map((voice) => (
+                    <Voice
+                        src={voice.audio}
+                        image={voice.image}
+                        text={voice.text}
+                        locked={voice.locked}
+                    />
+                ))
+            }
         </div>
     </section>
 
