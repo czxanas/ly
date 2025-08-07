@@ -4,6 +4,7 @@ import { SEO } from 'astro-seo';
 import { defaultSeo } from '../data/seo';
 import { getSeo } from '../utils/seo';
 import Heart from '../components/heart.astro';
+import Cta from '../components/cta.astro';
 
 interface Props {
     title: string;
@@ -45,9 +46,16 @@ const FONTS: string[] = [
         <!--/ FONTS -->
     </head>
     <body>
-        <header class="pointer-events-none fixed w-full top-10 left-0 z-999">
-            <nav class="flex justify-center items-center px-8">
-                    <!-- <Heart /> -->
+        <header class="pointer-events-none fixed w-full top-5 left-0 z-999">
+            <nav class="flex justify-between items-center px-4">
+                <div class="flex items-center w-fit scale-90">
+                    <Heart />
+                </div>
+                <!-- <Cta /> -->
+                 <div class="relative w-fit h-fit flex items-center pointer-events-auto group">
+                     <div class="relative w-9 h-9 rounded-full bg-[#252525] hover:bg-zinc-700 duration-150 shadow-md"></div>
+                     <div class="absolute -translate-x-1/2 group-hover:translate-x-0.5 w-8 h-8 rounded-full bg-white duration-150 shadow-md"></div>
+                 </div>
             </nav>
         </header>
         <main id="swup" class="transition-fade relative w-full min-h-[100dvh] overflow-hidden">
