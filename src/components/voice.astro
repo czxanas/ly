@@ -1,20 +1,28 @@
 ---
+import Play from "./play.astro";
+
 const { src, text } = Astro.props;
 
-const bars = Array.from({ length: 20 });
+const bars = Array.from({ length: 5 });
 ---
-
 <div
-    class="voice-box col-span-1 w-full aspect-[5/4] border-8 border-white shadow-lg hover:scale-101 rounded-[2rem] duration-250 cursor-pointer overflow-hidden"
+    class="voice-box col-span-1 w-full aspect-square border-4 border-white shadow-lg rounded-[2rem] hover:scale-105 active:scale-95 origin-center duration-250 cursor-pointer overflow-hidden"
     data-src={src}
 >
     <div class="relative w-full h-full c-grid_row px-5 py-4">
-        <div class="flex justify-center items-center gap-1">
-            {bars.map(() => <div class="w-0.75 h-1 bg-black/50 rounded-full" />)}
+        <div class="absolute w-full h-full top-0 left-0 overflow-hidden z-0">
+            <img class="w-full h-full object-cover grayscale-100x" src="/images/anas.webp" alt="">
         </div>
-        <div class="flex justify-between items-end">
-            <div class="text-black/80 text-lg">{text}</div>
-            <slot />
+        <div class="absolute w-full h-full top-0 left-0 bg-[linear-gradient(to_top,_black_0%,_transparent_40%)]"></div>
+        <!-- <div class="absolute top-2 right-2 p-2 rounded-full bg-white">
+            <Play />
+        </div> -->
+        <div class="absolute h-10 top-2 left-2 p-2 rounded-full bg-white shadow-md flex justify-center items-center gap-1 px-6">
+            {bars.map(() => <div class="w-0.75 h-1 bg-[#252525] rounded-full" />)}
+        </div>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center">
+            <span class="text-lg text-white">{text}</span>
+            <span class="text-xs font-light text-white/70">01:04</span>
         </div>
     </div>
 </div>
@@ -33,7 +41,7 @@ const bars = Array.from({ length: 20 });
                     audio = new Audio(src);
                 }
 
-                audio.play();
+                // audio.play();
             });
         });
     });
