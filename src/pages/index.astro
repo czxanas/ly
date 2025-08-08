@@ -73,7 +73,9 @@ const voices = [
             <Cta />
         </div>
 
-        <h2 class="w-full text-center mx-auto px-5 text-2xl xs:text-4xl font-light mt-0 mb-10">
+        <h2
+            class="audios w-full text-center mx-auto px-5 text-2xl xs:text-4xl font-light mt-0 mb-10"
+        >
             To the sun & back
         </h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 duration-150">
@@ -178,4 +180,38 @@ const voices = [
     }
 
     document.addEventListener('DOMContentLoaded', preloadDurations);
+</script>
+
+<script>
+    import gsap from 'gsap';
+    import ScrollToPlugin from 'gsap/ScrollToPlugin';
+
+    gsap.registerPlugin(ScrollToPlugin);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const trigger = document.querySelector('.lost') as HTMLElement;
+        const target = document.querySelector('.audios');
+
+        if (trigger && target) {
+            trigger.addEventListener('click', () => {
+                // Kill any ongoing scroll animations on the window
+
+
+                gsap.to(window, {
+                    onStart: () => {
+                        trigger.style.pointerEvents = 'none';
+                    },
+                    duration: 1,
+                    scrollTo: {
+                        y: target,
+                        offsetY: 50 // optional: offset from top (e.g. for fixed headers)
+                    },
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        trigger.style.pointerEvents = 'auto';
+                    }
+                });
+            });
+        }
+    });
 </script>
