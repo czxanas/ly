@@ -46,61 +46,7 @@ const bars = Array.from({ length: 5 });
             class="absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center mb-2 md:mb-0"
         >
             <span class="text-lg text-white whitespace-nowrap">{text}</span>
-            <span class="text-xs font-light text-white/70">01:04</span>
+            <span class=`${!locked && 'duration'} text-xs font-light text-white/70`>{locked ? 'None' : '01:11:10'}</span>
         </div>
     </div>
 </div>
-
-<script>
-    import gsap from 'gsap';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const boxes = document.querySelectorAll('.voice-box');
-    let currentAudio: HTMLAudioElement | null = null;
-    let currentBars: any = [];
-    let barTimeline: any = null;
-
-    boxes.forEach((box) => {
-      const src = box.getAttribute('data-src');
-      const bars = box.querySelectorAll<HTMLElement>('.bar');
-
-      box.addEventListener('click', () => {
-        if (box.classList.contains('cursor-not-allowed')) return;
-
-        // Stop previous audio & animation
-        if (currentAudio) {
-          currentAudio.pause();
-          currentAudio.currentTime = 0;
-          barTimeline?.kill();
-          currentBars.forEach((bar: any) => gsap.set(bar, { height: '0.25rem' }));
-        }
-
-        // Create and play new audio
-        const audio = new Audio(src!);
-        currentAudio = audio;
-        currentBars = bars;
-
-        audio.play();
-
-        // Animate bars with staggered randomness
-        barTimeline = gsap.timeline({ repeat: -1 });
-        bars.forEach((bar, i) => {
-          const delay = Math.random() * 0.2; // different start for each bar
-          barTimeline.to(bar, {
-            height: `${Math.random() * 1.5 + 0.5}rem`,
-            duration: 0.3,
-            yoyo: true,
-            repeat: 1,
-            ease: 'sine.inOut',
-          }, delay);
-        });
-
-        // When audio ends
-        audio.addEventListener('ended', () => {
-          barTimeline?.kill();
-          bars.forEach((bar) => gsap.set(bar, { height: '0.25rem' }));
-        });
-      });
-    });
-  });
-</script>

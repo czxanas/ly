@@ -32,7 +32,7 @@ const seo = {
 
 const voices = [
     {
-        audio: '/audios/fcku.mp3',
+        audio: '/audios/test-wakeup.mp3',
         image: '/images/anas.webp',
         text: 'Wake up',
         locked: false
@@ -94,3 +94,88 @@ const voices = [
         </div>
     </footer>
 </Layout>
+
+<script>
+    import gsap from 'gsap';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const boxes = document.querySelectorAll('.voice-box');
+        let currentAudio: HTMLAudioElement | null = null;
+        let currentBars: any = [];
+        let barTimeline: any = null;
+
+        boxes.forEach((box) => {
+            const src = box.getAttribute('data-src');
+            const bars = box.querySelectorAll<HTMLElement>('.bar');
+
+            box.addEventListener('click', () => {
+                if (box.classList.contains('cursor-not-allowed')) return;
+
+                // Stop previous audio & animation
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                    barTimeline?.kill();
+                    currentBars.forEach((bar: any) => gsap.set(bar, { height: '0.25rem' }));
+                }
+
+                // Create and play new audio
+                const audio = new Audio(src!);
+                currentAudio = audio;
+                currentBars = bars;
+
+                audio.play();
+
+                // Animate bars with staggered randomness
+                barTimeline = gsap.timeline({ repeat: -1 });
+                bars.forEach((bar, i) => {
+                    const delay = Math.random() * 0.2; // different start for each bar
+                    barTimeline.to(
+                        bar,
+                        {
+                            height: `${Math.random() * 1.5 + 0.5}rem`,
+                            duration: 0.3,
+                            yoyo: true,
+                            repeat: 1,
+                            ease: 'sine.inOut'
+                        },
+                        delay
+                    );
+                });
+
+                // When audio ends
+                audio.addEventListener('ended', () => {
+                    barTimeline?.kill();
+                    bars.forEach((bar) => gsap.set(bar, { height: '0.25rem' }));
+                });
+            });
+        });
+    });
+</script>
+
+<script>
+    function formatTime(seconds: number): string {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        const milliseconds = Math.floor((seconds % 1) * 1000);
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${milliseconds.toString().padStart(3, '0').slice(0, 2)}`;
+    }
+
+    function preloadDurations() {
+        const boxes = document.querySelectorAll('.voice-box');
+
+        boxes.forEach((box) => {
+            const audio = new Audio(box.getAttribute('data-src')!);
+
+            audio.addEventListener('loadedmetadata', () => {
+                const duration = audio.duration;
+                const durationSpan = box.querySelector<HTMLElement>('.duration');
+                if (durationSpan) {
+                    durationSpan.textContent = formatTime(duration);
+                }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', preloadDurations);
+</script>
