@@ -32,21 +32,21 @@ const seo = {
 
 const voices = [
     {
-        audio: '/audios/test-wakeup.mp3',
+        audio: '/audios/together.mp3',
         image: '/images/anas.webp',
-        text: 'Wake up',
+        text: 'Together',
         locked: false
     },
     {
-        audio: '/audios/fcku.mp3',
+        audio: '/audios/love.mp3',
         image: '/images/anas-1.webp',
         text: 'Love you',
         locked: false
     },
     {
-        audio: '/audios/fcku.mp3',
+        audio: '/audios/life.mp3',
         image: '/images/anas-3.webp',
-        text: 'Lynda',
+        text: 'Life',
         locked: false
     },
     {
@@ -159,8 +159,9 @@ const voices = [
     function formatTime(seconds: number): string {
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
-        const milliseconds = Math.floor((seconds % 1) * 1000);
-        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${milliseconds.toString().padStart(3, '0').slice(0, 2)}`;
+        // const milliseconds = Math.floor((seconds % 1) * 1000);
+        // return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${milliseconds.toString().padStart(3, '0').slice(0, 2)}`;
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
     function preloadDurations() {
