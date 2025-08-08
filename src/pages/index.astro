@@ -78,13 +78,8 @@ const voices = [
         </h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 duration-150">
             {
-                voices.map((voice) => (
-                    <Voice
-                        src={voice.audio}
-                        image={voice.image}
-                        text={voice.text}
-                        locked={voice.locked}
-                    />
+                voices.map(({ audio, image, text, locked }) => (
+                    <Voice src={audio} image={image} text={text} locked={locked} />
                 ))
             }
         </div>

@@ -7,7 +7,7 @@ const bars = Array.from({ length: 5 });
 ---
 
 <div
-    class="voice-box col-span-1 w-full aspect-square border-6 border-white shadow-lg rounded-[2rem] hover:scale-105 active:scale-95 origin-center duration-250 cursor-pointer overflow-hidden"
+    class=`voice-box col-span-1 w-full aspect-square border-6 border-white shadow-lg rounded-[2rem] origin-center duration-250 overflow-hidden ${locked ? 'cursor-not-allowed' : 'cursor-pointer hover:scale-105 active:scale-95'}`
     data-src={src}
 >
     <div class="relative w-full h-full c-grid_row px-5 py-4">
