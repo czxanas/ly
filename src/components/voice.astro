@@ -31,7 +31,7 @@ const bars = Array.from({ length: 5 });
             {
                 !locked &&
                     bars.map(() => (
-                        <div class="w-0.75 h-1 bg-[#252525]x bg-white shadow rounded-full" />
+                        <div class="bar w-0.75 h-1 bg-[#252525]x bg-white shadow rounded-full" />
                     ))
             }
         </div>
@@ -52,21 +52,55 @@ const bars = Array.from({ length: 5 });
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const boxes = document.querySelectorAll('.voice-box') as any;
+    import gsap from 'gsap';
 
-        boxes.forEach((box: any) => {
-            let audio: any = null;
+  document.addEventListener('DOMContentLoaded', () => {
+    const boxes = document.querySelectorAll('.voice-box');
+    let currentAudio: HTMLAudioElement | null = null;
+    let currentBars: any = [];
+    let barTimeline: any = null;
 
-            box.addEventListener('click', () => {
-                const src = box.getAttribute('data-src');
+    boxes.forEach((box) => {
+      const src = box.getAttribute('data-src');
+      const bars = box.querySelectorAll<HTMLElement>('.bar');
 
-                if (!audio) {
-                    audio = new Audio(src);
-                }
+      box.addEventListener('click', () => {
+        if (box.classList.contains('cursor-not-allowed')) return;
 
-                // audio.play();
-            });
+        // Stop previous audio & animation
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+          barTimeline?.kill();
+          currentBars.forEach((bar: any) => gsap.set(bar, { height: '0.25rem' }));
+        }
+
+        // Create and play new audio
+        const audio = new Audio(src!);
+        currentAudio = audio;
+        currentBars = bars;
+
+        audio.play();
+
+        // Animate bars with staggered randomness
+        barTimeline = gsap.timeline({ repeat: -1 });
+        bars.forEach((bar, i) => {
+          const delay = Math.random() * 0.2; // different start for each bar
+          barTimeline.to(bar, {
+            height: `${Math.random() * 1.5 + 0.5}rem`,
+            duration: 0.3,
+            yoyo: true,
+            repeat: 1,
+            ease: 'sine.inOut',
+          }, delay);
         });
+
+        // When audio ends
+        audio.addEventListener('ended', () => {
+          barTimeline?.kill();
+          bars.forEach((bar) => gsap.set(bar, { height: '0.25rem' }));
+        });
+      });
     });
+  });
 </script>
